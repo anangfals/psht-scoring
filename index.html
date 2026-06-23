@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PSHT SCORING - Digital Scoring Pencak Silat</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
+body{background:#0a0a0f;color:#fff;min-height:100vh}
+
+.logo{
+  text-align:center;padding:40px 20px;
+  background:radial-gradient(circle at center,#1a1a2e 0%,#0a0a0f 70%)
+}
+.logo svg{width:200px;height:120px;filter:drop-shadow(0 0 20px #a855f7)}
+.logo h1{font-size:48px;margin-top:20px;font-weight:900}
+.logo h1 span{color:#a855f7}
+.logo p{color:#888;margin-top:10px;font-size:16px}
+
+.landing{
+  max-width:1200px;margin:50px auto;padding:20px
+}
+.grid-4{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:40px
+}
+.card{
+  background:linear-gradient(145deg,#1a1a2e,#0f0f1a);
+  border:1px solid #2a2a3e;border-radius:20px;padding:30px;
+  text-align:center;cursor:pointer;transition:0.3s
+}
+.card:hover{
+  border-color:#a855f7;transform:translateY(-5px);
+  box-shadow:0 10px 30px rgba(168,85,247,0.3)
+}
+.card-icon{
+  width:70px;height:70px;margin:0 auto 20px;
+  background:rgba(168,85,247,0.1);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-size:35px
+}
+.card h3{font-size:24px;margin-bottom:10px}
+.card p{color:#aaa;font-size:14px;line-height:1.6}
+
+.tips{
+  background:rgba(168,85,247,0.1);border:1px solid #a855f7;
+  border-radius:15px;padding:20px;margin-top:50px;text-align:center
+}
+.tips b{color:#fbbf24}
+
+.app-screen{display:none;height:100vh;padding:20px}
+.app-screen.active{display:block}
+
+.header-app{
+  background:linear-gradient(90deg,#1e1b4b,#4c1d95);
+  padding:15px;border-radius:15px;text-align:center;
+  font-size:20px;font-weight:900;margin-bottom:20px
+}
+
+/* SEKRETARIS */
+.input-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.input-box{
+  background:#1a1a2e;padding:20px;border-radius:15px;border:1px solid #2a2a3e
+}
+.input-box h3{color:#a855f7;margin-bottom:15px}
+input,select{
+  width:100%;padding:12px;margin:8px 0;background:#0f0f1a;
+  border:1px solid #333;border-radius:8px;color:#fff;font-size:15px
+}
+.btn{
+  padding:12px 25px;border:none;border-radius:10px;
+  background:#7c3aed;color:#fff;font-weight:700;cursor:pointer;
+  margin:5px;font-size:15px
+}
+.btn:hover{background:#6d28d9}
+.btn-danger{background:#dc2626}
+.btn-success{background:#16a34a}
+
+/* JURI */
+.juri-layout{display:flex;gap:20px;height:calc(100vh - 120px)}
+.col-pertandingan{
+  flex:1;background:#1a1a2e;border-radius:20px;padding:30px;
+  border:2px solid #3b82f6;display:flex;flex-direction:column;align-items:center
+}
+.col-pertandingan.merah{border-color:#ef4444}
+.col-pertandingan h2{font-size:32px;margin-bottom:10px}
+.score-juri{
+  font-size:150px;font-weight:900;margin:30px 0;text-shadow:0 0 30px currentColor
+}
+.btn-juri{
+  width:100%;padding:25px;font-size:24px;font-weight:900;
+  border:none;border-radius:15px;margin:8px 0;cursor:pointer;
+  transition:0.2s
+}
+.btn-juri:active{transform:scale(0.95)}
+.btn-biru{background:#1e40af;color:#fff}
+.btn-merah{background:#991b1b;color:#fff}
+
+/* DEWAN */
+.dewan-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;height:calc(100vh - 120px)}
+.dewan-card{
+  background:#1a1a2e;border-radius:20px;padding:30px;
+  border:2px solid #fbbf24;overflow-y:auto
+}
+.dewan-card h2{color:#fbbf24;margin-bottom:20px;font-size:28px}
+.warning-btn{
+  width:100%;padding:15px;margin:8px 0;border:none;border-radius:10px;
+  background:#444;color:#fff;font-size:18px;font-weight:700;cursor:pointer
+}
+.warning-btn.active{background:#fbbf24;color:#000}
+
+/* MONITOR */
+.monitor-layout{
+  display:flex;flex-direction:column;gap:30px;height:calc(100vh - 120px)
+}
+.monitor-top{
+  display:flex;gap:30px;flex:1
+}
+.monitor-atlet{
+  flex:1;background:#1a1a2e;border-radius:25px;padding:40px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  border:4px solid
+}
+.monitor-atlet.biru{border-color:#3b82f6;box-shadow:0 0 50px rgba(59,130,246,0.3)}
+.monitor-atlet.merah{border-color:#ef4444;box-shadow:0 0 50px rgba(239,68,68,0.3)}
+.monitor-foto{
+  width:200px;height:200px;border-radius:50%;border:5px solid #555;
+  object-fit:cover;margin-bottom:25px
+}
+.monitor-nama{font-size:50px;font-weight:900;margin-bottom:10px}
+.monitor-perguruan{font-size:24px;color:#aaa;margin-bottom:20px}
+.monitor-score{font-size:200px;font-weight:900;text-shadow:0 0 40px currentColor}
+.monitor-timer{
+  background:#1a1a2e;border-radius:20px;padding:30px;text-align:center;
+  border:3px solid #a855f7
+}
+.timer-big{font-size:100px;font-weight:900;color:#fbbf24}
+
+.back-btn{
+  position:fixed;top:20px;left:20px;z-index:1000;
+  padding:10px 20px;background:#1a1a2e;border:1px solid #555;
+  border-radius:10px;color:#fff;cursor:pointer
+}
+
+@media(max-width:900px){
+ .grid-4{grid-template-columns:1fr 1fr}
+ .input-grid,.juri-layout,.dewan-grid,.monitor-top{flex-direction:column;grid-template-columns:1fr}
+ .monitor-score{font-size:120px}
+</style>
+</head>
+<body>
+
+<!-- LANDING PAGE -->
+<div id="landingPage">
+  <div class="logo">
+    <svg viewBox="0 0 200 120">
+      <text x="100" y="70" text-anchor="middle" fill="#a855f7" font-size="40" font-weight="900">PSHT</text>
+      <text x="100" y="95" text-anchor="middle" fill="#888" font-size="12">DIGITAL SCORING</text>
+    </svg>
+    <h1>PENCAK <span>SILAT</span></h1>
+    <p>Platform Digital Penilai - Pengelola Pertandingan Pencak Silat Profesional<br>Dengan Sinkronisasi Instan Multi Layar</p>
+  </div>
+
+  <div class="landing">
+    <div class="grid-4">
+      <div class="card" onclick="bukaMode('dewan')">
+        <div class="card-icon">🛡️</div>
+        <h3>DEWAN</h3>
+        <p>Kelola pelanggaran, teguran, peringatan, jatuhan, serta instruksi verifikasi penilaian juri</p>
+      </div>
+
+      <div class="card" onclick="bukaMode('juri')">
+        <div class="card-icon">👤</div>
+        <h3>JURI</h3>
+        <p>Berikan penilaian langsung Pukulan & Tendangan pada sudut Merah & Biru</p>
+      </div>
+
+      <div class="card" onclick="bukaMode('sekretaris')">
+        <div class="card-icon">📋</div>
+        <h3>SEKRETARIS</h3>
+        <p>Input data atlet, kelola durasi, timer & babak. Kendali utama pertandingan</p>
+      </div>
+
+      <div class="card" onclick="bukaMode('monitor')">
+        <div class="card-icon">🖥️</div>
+        <h3>MONITOR</h3>
+        <p>Display layar utama penonton. Skor real-time akumulatif secara megah</p>
+      </div>
+    </div>
+
+    <div class="tips">
+      <b>💡 TIPS PENYIAPAN MULTI-LAYAR</b><br><br>
+      Buka aplikasi ini di beberapa tab/browser. Atur 1 tab jadi Sekretaris, tab lain jadi Juri 1,2,3, Dewan, Monitor.
+      Data sinkron otomatis dalam milidetik!
+    </div>
+  </div>
+</div>
+
+<!-- APP SCREENS -->
+<button class="back-btn" onclick="kembaliLanding()">← Kembali</button>
+
+<!-- SEKRETARIS -->
+<div id="sekretarisScreen" class="app-screen">
+  <div class="header-app">PANEL SEKRETARIS - Kontrol Utama</div>
+  <div class="input-grid">
+    <div class="input-box">
+      <h3>Data Pertandingan</h3>
+      <input id="judulMatch" placeholder="Nama Kejuaraan">
+      <input id="babakInput" type="number" value="1" min="1" max="3">
+      <input id="timerInput" type="number" value="180" min="60" max="600">
+      <button class="btn btn-success" onclick="startTimer()">MULAI</button>
+      <button class="btn" onclick="pauseTimer()">PAUSE</button>
+      <button class="btn btn-danger" onclick="resetMatch()">RESET</button>
+    </div>
+
+    <div class="input-box">
+      <h3>Data Atlet Biru</h3>
+      <input id="namaBiru" placeholder="Nama Atlet Biru">
+      <input id="perguruanBiru" placeholder="Perguruan Biru">
+      <input type="file" id="fotoBiru" accept="image/*">
+    </div>
+
+    <div class="input-box">
+      <h3>Data Atlet Merah</h3>
+      <input id="inputNamaMerah" placeholder="Nama Atlet Merah">
+      <input id="inputPerguruanMerah" placeholder="Perguruan Merah">
+      <input type="file" id="fotoMerah" accept="image/*">
+    </div>
+
+    <div class="input-box">
+      <h3>Logo & Simpan</h3>
+      <input type="file" id="logoKiri" accept="image/*">
+      <input type="file" id="logoKanan" accept="image/*">
+      <button class="btn btn-success" onclick="saveData()">SIMPAN SEMUA DATA</button>
+    </div>
+  </div>
+</div>
+
+<!-- JURI -->
+<div id="juriScreen" class="app-screen">
+  <div class="header-app">PANEL JURI - Beri Nilai</div>
+  <div class="juri-layout">
+    <div class="col-pertandingan biru">
+      <h2>BIRU</h2>
+      <div class="score-juri" id="scoreBiruJuri">0</div>
+      <button class="btn-juri btn-biru" onclick="addScore('biru',1)">+1 PUKULAN</button>
+      <button class="btn-juri btn-biru" onclick="addScore('biru',2)">+2 TENDANGAN</button>
+      <button class="btn-juri btn-biru" onclick="addScore('biru',3)">+3 JATUHAN</button>
+    </div>
+    <div class="col-pertandingan merah">
+      <h2>MERAH</h2>
+      <div class="score-juri" id="scoreMerahJuri">0</div>
+      <button class="btn-juri btn-merah" onclick="addScore('merah',1)">+1 PUKULAN</button>
+      <button class="btn-juri btn-merah" onclick="addScore('merah',2)">+2 TENDANGAN</button>
+      <button class="btn-juri btn-merah" onclick="addScore('merah',3)">+3 JATUHAN</button>
+    </div>
+  </div>
+</div>
+
+<!-- DEWAN -->
+<div id="dewanScreen" class="app-screen">
+  <div class="header-app">PANEL DEWAN JURI - Kontrol Pelanggaran</div>
+  <div class="dewan-grid">
+    <div class="dewan-card">
+      <h2>ATLET BIRU</h2>
+      <button class="warning-btn" onclick="toggleWarning('biru','teguran')">TEGURAN 1</button>
+      <button class="warning-btn" onclick="toggleWarning('biru','peringatan')">PERINGATAN</button>
+      <button class="warning-btn" onclick="toggleWarning('biru','jatuhan')">JATUHAN</button>
+    </div>
+    <div class="dewan-card">
+      <h2>ATLET MERAH</h2>
+      <button class="warning-btn" onclick="toggleWarning('merah','teguran')">TEGURAN 1</button>
+      <button class="warning-btn" onclick="toggleWarning('merah','peringatan')">PERINGATAN</button>
+      <button class="warning-btn" onclick="toggleWarning('merah','jatuhan')">JATUHAN</button>
+    </div>
+  </div>
+</div>
+
+<!-- MONITOR -->
+<div id="monitorScreen" class="app-screen">
+  <div class="monitor-layout">
+    <div class="monitor-top">
+      <div class="monitor-atlet biru">
+        <img class="monitor-foto" id="monitorFotoBiru" src="https://via.placeholder.com/200">
+        <div class="monitor-nama" id="monitorNamaBiru">ATLET BIRU</div>
+        <div class="monitor-perguruan" id="monitorPerguruanBiru">PERGURUAN BIRU</div>
+        <div class="monitor-score" id="monitorScoreBiru">0</div>
+      </div>
+      <div class="monitor-atlet merah">
+        <img class="monitor-foto" id="monitorFotoMerah" src="https://via.placeholder.com/200">
+        <div class="monitor-nama" id="monitorNamaMerah">ATLET MERAH</div>
+        <div class="monitor-perguruan" id="monitorPerguruanMerah">PERGURUAN MERAH</div>
+        <div class="monitor-score" id="monitorScoreMerah">0</div>
+      </div>
+    </div>
+    <div class="monitor-timer">
+      <div id="monitorBabak" style="font-size:30px;color:#a855f7">BABAK 1</div>
+      <div class="timer-big" id="monitorTimer">03:00</div>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+import { getDatabase, ref, onValue, update, get, set } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+
+const app = initializeApp({
+  databaseURL: "https://juri-silat-psht-by-4n4n9-default-rtdb.asia-southeast1.firebasedatabase.app/"
+});
+const db = getDatabase(app);
+const dataRef = ref(db, 'match');
+
+let timerInterval = null;
+let isRunning = false;
+
+window.bukaMode = (mode) => {
+  document.getElementById('landingPage').style.display = 'none';
+  document.querySelectorAll('.app-screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(mode + 'Screen').classList.add('active');
+}
+
+window.kembaliLanding = () => {
+  document.getElementById('landingPage').style.display = 'block';
+  document.querySelectorAll('.app-screen').forEach(s => s.classList.remove('active'));
+}
+
+// INIT DATA
+async function initData() {
+  const snap = await get(dataRef);
+  if(!snap.exists()) {
+    await set(dataRef, {
+      biru: 0, merah: 0, timer: 180, babak: 1,
+      namaBiru: 'ATLET BIRU', namaMerah: 'ATLET MERAH',
+      perguruanBiru: 'PERGURUAN BIRU', perguruanMerah: 'PERGURUAN MERAH',
+      judul: 'KEJUARAAN PSHT', fotoBiru: 'https://via.placeholder.com/200',
+      fotoMerah: 'https://via.placeholder.com/200', logoKiri: '', logoKanan: ''
+    });
+  }
+}
+initData();
+
+// LISTENER REALTIME
+onValue(dataRef, (snap) => {
+  const d = snap.val();
+  if(!d) return;
+
+  // Update semua layar
+  document.getElementById('scoreBiruJuri').textContent = d.biru;
+  document.getElementById('scoreMerahJuri').textContent = d.merah;
+  document.getElementById('monitorScoreBiru').textContent = d.biru;
+  document.getElementById('monitorScoreMerah').textContent = d.merah;
+  document.getElementById('monitorNamaBiru').textContent = d.namaBiru;
+  document.getElementById('monitorNamaMerah').textContent = d.namaMerah;
+  document.getElementById('monitorPerguruanBiru').textContent = d.perguruanBiru;
+  document.getElementById('monitorPerguruanMerah').textContent = d.perguruanMerah;
+  document.getElementById('monitorFotoBiru').src = d.fotoBiru;
+  document.getElementById('monitorFotoMerah').src = d.fotoMerah;
+  document.getElementById('monitorBabak').textContent = 'BABAK ' + d.babak;
+
+  let m = Math.floor(d.timer/60);
+  let s = d.timer%60;
+  document.getElementById('monitorTimer').textContent = String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+});
+
+// JURI FUNCTION
+window.addScore = async (warna, nilai) => {
+  const snap = await get(dataRef);
+  const d = snap.val();
+  update(dataRef, {[warna]: d[warna] + nilai});
+}
+
+// SEKRETARIS FUNCTION
+window.startTimer = () => {
+  isRunning = true;
+  timerInterval = setInterval(async () => {
+    const snap = await get(dataRef);
+    let t = snap.val().timer;
+    if(t > 0) update(dataRef, {timer: t - 1});
+    else {clearInterval(timerInterval); isRunning = false;}
+  }, 1000);
+}
+
+window.pauseTimer = () => {
+  isRunning = false;
+  clearInterval(timerInterval);
+}
+
+window.resetMatch = () => {
+  clearInterval(timerInterval);
+  isRunning = false;
+  update(dataRef, {biru:0, merah:0, timer:180, babak:1});
+}
+
+window.saveData = async () => {
+  const updateData = {
+    namaBiru: document.getElementById('namaBiru').value || 'ATLET BIRU',
+    namaMerah: document.getElementById('inputNamaMerah').value || 'ATLET MERAH',
+    perguruanBiru: document.getElementById('perguruanBiru').value || 'PERGURUAN BIRU',
+    perguruanMerah: document.getElementById('inputPerguruanMerah').value || 'PERGURUAN MERAH',
+    judul: document.getElementById('judulMatch').value || 'KEJUARAAN PSHT',
+    babak: parseInt(document.getElementById('babakInput').value),
+    timer: parseInt(document.getElementById('timerInput').value)
+  };
+
+  const uploadFile = (input) => {
+    return new Promise(resolve => {
+      if(input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = e => resolve(e.target.result);
+        reader.readAsDataURL(input.files[0]);
+      } else resolve(null);
+    });
+  };
+
+  const [fotoBiru, fotoMerah, logoKiri, logoKanan] = await Promise.all([
+    uploadFile(document.getElementById('fotoBiru')),
+    uploadFile(document.getElementById('fotoMerah')),
+    uploadFile(document.getElementById('logoKiri')),
+    uploadFile(document.getElementById('logoKanan'))
+  ]);
+
+  if(fotoBiru) updateData.fotoBiru = fotoBiru;
+  if(fotoMerah) updateData.fotoMerah = fotoMerah;
+  if(logoKiri) updateData.logoKiri = logoKiri;
+  if(logoKanan) updateData.logoKanan = logoKanan;
+
+  await update(dataRef, updateData);
+  alert('✅ Data tersimpan!');
+}
+
+window.toggleWarning = (warna, jenis) => {
+  alert(jenis.toUpperCase() + ' untuk ' + warna.toUpperCase());
+  // Bisa ditambah logic pengurangan skor di sini
+}
+</script>
+</body>
+</html>
