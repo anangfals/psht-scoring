@@ -6,7 +6,7 @@
 <title>PSHT SCORING - Digital Scoring</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
-body{background:#0a0a0f;color:#fff;min-height:100vh}
+body{background:#0a0a0f;color:#fff;min-height:100vh;overflow-x:hidden}
 .logo{text-align:center;padding:40px 20px;background:radial-gradient(circle at center,#1a1a2e 0%,#0a0a0f 70%)}
 .logo svg{width:200px;height:120px;filter:drop-shadow(0 0 20px #a855f7)}
 .logo h1{font-size:48px;margin-top:20px;font-weight:900}
@@ -25,7 +25,7 @@ body{background:#0a0a0f;color:#fff;min-height:100vh}
 .app-screen.active{display:block}
 .header-app{background:linear-gradient(90deg,#1e1b4b,#4c1d95);padding:15px;border-radius:15px;text-align:center;font-size:20px;font-weight:900;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center}
 .header-info{font-size:14px;color:#ccc;text-align:left}
-.back-btn{padding:8px 20px;background:#1a1a2e;border:1px solid #555;border-radius:10px;color:#fff;cursor:pointer}
+.back-btn{padding:8px 20px;background:#1a1a2e;border:1px solid #555;border-radius:10px;color:#fff;cursor:pointer;font-size:14px}
 
 /* SEKRETARIS */
 .input-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
@@ -37,24 +37,36 @@ input{width:100%;padding:12px;margin:8px 0;background:#0f0f1a;border:1px solid #
 .btn-danger{background:#dc2626}
 .btn-success{background:#16a34a}
 
-/* JURI */
+/* JURI - PILIH IDENTITAS */
+.juri-select-screen{text-align:center;padding:80px 20px}
+.juri-select-screen h1{font-size:40px;color:#a855f7;margin-bottom:10px}
+.juri-select-screen p{color:#aaa;margin-bottom:50px}
+.juri-card{
+  max-width:500px;margin:15px auto;padding:25px;background:#1a1a2e;
+  border:2px solid #2a2a3e;border-radius:15px;display:flex;align-items:center;
+  justify-content:space-between;cursor:pointer;transition:0.3s
+}
+.juri-card:hover{border-color:#a855f7;background:#22223e;transform:translateX(10px)}
+.juri-card-left{display:flex;align-items:center;gap:15px}
+.juri-icon{width:50px;height:50px;background:rgba(168,85,247,0.2);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:24px}
+.juri-nama{font-size:20px;font-weight:700}
+.juri-masuk{color:#a855f7;font-size:14px;font-weight:700}
+
+/* JURI - PANEL NILAI */
 .juri-layout{display:flex;gap:20px;height:calc(100vh - 120px)}
 .col-pertandingan{flex:1;background:#1a1a2e;border-radius:20px;padding:30px;border:3px solid;display:flex;flex-direction:column;align-items:center}
-.col-pertandingan.biru{border-color:#3b82f6}
-.col-pertandingan.merah{border-color:#ef4444}
+.col-pertandingan.biru{border-color:#3b82f6;background:linear-gradient(180deg,rgba(59,130,246,0.1),#1a1a2e)}
+.col-pertandingan.merah{border-color:#ef4444;background:linear-gradient(180deg,rgba(239,68,68,0.1),#1a1a2e)}
 .col-pertandingan h2{font-size:32px;margin-bottom:5px}
 .col-pertandingan.subtitle{color:#aaa;margin-bottom:20px}
 .score-juri{font-size:150px;font-weight:900;margin:30px 0;text-shadow:0 0 30px currentColor}
 .btn-juri{width:100%;padding:18px;font-size:18px;font-weight:900;border:none;border-radius:12px;margin:6px 0;cursor:pointer;transition:0.2s;color:#fff}
 .btn-juri:active{transform:scale(0.95)}
+.btn-jatuhan{background:#10b981}
 .btn-biru{background:#1e40af}
 .btn-merah{background:#991b1b}
-.btn-jatuhan{background:#10b981}
-.btn-teguran{background:#f59e0b}
-.btn-peringatan{background:#dc2626}
-.btn-diskualifikasi{background:#7c2d12}
 
-/* DEWAN - Style kayak gambar */
+/* DEWAN */
 .dewan-grid{display:grid;grid-template-columns:1fr 0.8fr 1fr;gap:20px;height:calc(100vh - 120px)}
 .dewan-atlet{background:#1a1a2e;border-radius:20px;padding:25px;border:3px solid}
 .dewan-atlet.biru{border-color:#3b82f6;background:linear-gradient(180deg,rgba(59,130,246,0.15),#1a1a2e)}
@@ -72,15 +84,10 @@ input{width:100%;padding:12px;margin:8px 0;background:#0f0f1a;border:1px solid #
 .dewan-btn.peringatan{background:#dc2626}
 .dewan-btn.diskualifikasi{background:#7c2d12;width:100%;grid-column:span 2;margin-top:10px}
 .dewan-btn.var{background:#2563eb;width:100%;grid-column:span 2;margin-top:10px}
-
 .dewan-tengah{background:#1a1a2e;border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:15px}
 .dewan-babak{background:#000;padding:20px;border-radius:15px;text-align:center;border:2px solid #fbbf24}
 .dewan-babak.label{color:#fbbf24;font-size:14px;font-weight:700}
 .dewan-babak.timer{font-size:50px;font-weight:900;margin-top:5px}
-.dewan-monitor{background:#000;padding:15px;border-radius:12px;border:1px solid #333}
-.dewan-monitor h4{color:#a855f7;font-size:12px;margin-bottom:8px;text-align:center}
-.juri-score-mini{font-size:11px;color:#aaa;margin:4px 0}
-
 .dewan-kendali{margin-top:auto}
 .dewan-kendali h4{color:#fbbf24;text-align:center;margin-bottom:10px;font-size:14px}
 .btn-kendali{width:100%;padding:14px;border:none;border-radius:10px;background:#7c3aed;color:#fff;font-weight:700;cursor:pointer;margin:5px 0;font-size:14px}
@@ -98,14 +105,13 @@ input{width:100%;padding:12px;margin:8px 0;background:#0f0f1a;border:1px solid #
 .monitor-timer{background:#1a1a2e;border-radius:20px;padding:30px;text-align:center;border:3px solid #a855f7}
 .timer-big{font-size:100px;font-weight:900;color:#fbbf24}
 
-.back-btn{position:fixed;top:20px;left:20px;z-index:1000;padding:10px 20px;background:#1a1a2e;border:1px solid #555;border-radius:10px;color:#fff;cursor:pointer}
-
 @media(max-width:900px){
 .grid-4{grid-template-columns:1fr 1fr}
 .input-grid,.juri-layout,.dewan-grid,.monitor-top{flex-direction:column;grid-template-columns:1fr}
 .dewan-grid{height:auto}
 .dewan-score{font-size:80px}
 .monitor-score{font-size:120px}
+.score-juri{font-size:100px}
 </style>
 </head>
 <body>
@@ -205,39 +211,76 @@ input{width:100%;padding:12px;margin:8px 0;background:#0f0f1a;border:1px solid #
   </div>
 </div>
 
-<!-- JURI -->
+<!-- JURI - PILIH IDENTITAS DULU -->
 <div id="juriScreen" class="app-screen">
-  <div class="header-app">PANEL JURI - Beri Nilai</div>
-  <div class="juri-layout">
-    <div class="col-pertandingan biru">
-      <h2>BIRU</h2>
-      <div class="subtitle" id="namaBiruJuri">ATLET BIRU</div>
-      <div class="score-juri" id="scoreBiruJuri">0</div>
-      <button class="btn-juri btn-jatuhan" onclick="addScore('biru',3)">JATUHAN +3</button>
-      <button class="btn-juri btn-biru" onclick="addScore('biru',2)">TENDANGAN +2</button>
-      <button class="btn-juri btn-biru" onclick="addScore('biru',1)">PUKULAN +1</button>
+  <div class="header-app">
+    <button class="back-btn" onclick="kembaliKeJuriSelect()">← MENU</button>
+    PENILIHAN JURI
+    <div class="header-info" id="judulJuriHeader">KEJUARAAN PSHT</div>
+  </div>
+
+  <div id="juriSelectView" class="juri-select-screen">
+    <h1>PILIH IDENTITAS JURI</h1>
+    <p>Pilih salah satu nomor Juri untuk bertugas memasukkan nilai pukulan dan tendangan tanding.</p>
+
+    <div class="juri-card" onclick="pilihJuri(1)">
+      <div class="juri-card-left">
+        <div class="juri-icon">👤</div>
+        <div class="juri-nama">PETUGAS JURI 1</div>
+      </div>
+      <div class="juri-masuk">Masuk Panel →</div>
     </div>
-    <div class="col-pertandingan merah">
-      <h2>MERAH</h2>
-      <div class="subtitle" id="namaMerahJuri">ATLET MERAH</div>
-      <div class="score-juri" id="scoreMerahJuri">0</div>
-      <button class="btn-juri btn-jatuhan" onclick="addScore('merah',3)">JATUHAN +3</button>
-      <button class="btn-juri btn-merah" onclick="addScore('merah',2)">TENDANGAN +2</button>
-      <button class="btn-juri btn-merah" onclick="addScore('merah',1)">PUKULAN +1</button>
+
+    <div class="juri-card" onclick="pilihJuri(2)">
+      <div class="juri-card-left">
+        <div class="juri-icon">👤</div>
+        <div class="juri-nama">PETUGAS JURI 2</div>
+      </div>
+      <div class="juri-masuk">Masuk Panel →</div>
+    </div>
+
+    <div class="juri-card" onclick="pilihJuri(3)">
+      <div class="juri-card-left">
+        <div class="juri-icon">👤</div>
+        <div class="juri-nama">PETUGAS JURI 3</div>
+      </div>
+      <div class="juri-masuk">Masuk Panel →</div>
+    </div>
+  </div>
+
+  <div id="juriPanelView" style="display:none">
+    <div class="header-app" style="background:#1a1a2e;border:1px solid #a855f7">
+      PANEL JURI <span id="nomorJuriAktif">1</span> - Beri Nilai
+    </div>
+    <div class="juri-layout">
+      <div class="col-pertandingan biru">
+        <h2>BIRU</h2>
+        <div class="subtitle" id="namaBiruJuri">ATLET BIRU</div>
+        <div class="score-juri" id="scoreBiruJuri">0</div>
+        <button class="btn-juri btn-jatuhan" onclick="addScore('biru',3)">JATUHAN +3</button>
+        <button class="btn-juri btn-biru" onclick="addScore('biru',2)">TENDANGAN +2</button>
+        <button class="btn-juri btn-biru" onclick="addScore('biru',1)">PUKULAN +1</button>
+      </div>
+      <div class="col-pertandingan merah">
+        <h2>MERAH</h2>
+        <div class="subtitle" id="namaMerahJuri">ATLET MERAH</div>
+        <div class="score-juri" id="scoreMerahJuri">0</div>
+        <button class="btn-juri btn-jatuhan" onclick="addScore('merah',3)">JATUHAN +3</button>
+        <button class="btn-juri btn-merah" onclick="addScore('merah',2)">TENDANGAN +2</button>
+        <button class="btn-juri btn-merah" onclick="addScore('merah',1)">PUKULAN +1</button>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- DEWAN - UPDATE SESUAI GAMBAR -->
+<!-- DEWAN -->
 <div id="dewanScreen" class="app-screen">
   <div class="dewan-grid">
-    <!-- KIRI BIRU -->
     <div class="dewan-atlet biru">
       <div class="dewan-header">SUDUT BIRU</div>
       <div class="dewan-nama" id="dewanNamaBiru">BUDI RAHARJO</div>
       <div class="dewan-perguruan" id="dewanPerguruanBiru">JAWA BARAT</div>
       <div class="dewan-score" id="dewanScoreBiru">0</div>
-
       <div class="dewan-btn-grid">
         <button class="dewan-btn binaan" onclick="hukuman('biru',0)">Binaan 1</button>
         <button class="dewan-btn binaan" onclick="hukuman('biru',0)">Binaan 2</button>
@@ -251,20 +294,11 @@ input{width:100%;padding:12px;margin:8px 0;background:#0f0f1a;border:1px solid #
       </div>
     </div>
 
-    <!-- TENGAH -->
     <div class="dewan-tengah">
       <div class="dewan-babak">
         <div class="label" id="dewanBabakLabel">BABAK 1 - AKTIF</div>
         <div class="timer" id="dewanTimer">02:00</div>
       </div>
-
-      <div class="dewan-monitor">
-        <h4>MONITOR JURI</h4>
-        <div class="juri-score-mini">JURI 1<br>P: 0 : 0 :P<br>K: 0 : 0 :K</div>
-        <div class="juri-score-mini">JURI 2<br>P: 0 : 0 :P<br>K: 0 : 0 :K</div>
-        <div class="juri-score-mini">JURI 3<br>P: 0 : 0 :P<br>K: 0 : 0 :K</div>
-      </div>
-
       <div class="dewan-kendali">
         <h4>KENDALI VERIFIKASI</h4>
         <button class="btn-kendali" onclick="alert('Verifikasi Jatuhan')">VERIFIKASI JATUHAN</button>
@@ -272,13 +306,11 @@ input{width:100%;padding:12px;margin:8px 0;background:#0f0f1a;border:1px solid #
       </div>
     </div>
 
-    <!-- KAN MERAH -->
     <div class="dewan-atlet merah">
       <div class="dewan-header">SUDUT MERAH</div>
       <div class="dewan-nama" id="dewanNamaMerah">ALDI SETIAWAN</div>
       <div class="dewan-perguruan" id="dewanPerguruanMerah">DKI JAKARTA</div>
       <div class="dewan-score" id="dewanScoreMerah">3</div>
-
       <div class="dewan-btn-grid">
         <button class="dewan-btn jatuhan" onclick="hukuman('merah',3)">Jatuhan +3</button>
         <button class="dewan-btn binaan" onclick="hukuman('merah',0)">Binaan 2</button>
@@ -330,18 +362,38 @@ const dataRef = ref(db, 'match');
 
 let timerInterval = null;
 let isRunning = false;
+let juriAktif = 1;
 
 window.bukaMode = (mode) => {
   document.getElementById('landingPage').style.display = 'none';
   document.querySelectorAll('.app-screen').forEach(s => s.classList.remove('active'));
   document.getElementById(mode + 'Screen').classList.add('active');
   document.getElementById('btnBack').style.display = 'block';
+
+  // Reset Juri ke select view
+  if(mode === 'juri') {
+    document.getElementById('juriSelectView').style.display = 'block';
+    document.getElementById('juriPanelView').style.display = 'none';
+  }
 }
 
 window.kembaliLanding = () => {
   document.getElementById('landingPage').style.display = 'block';
   document.querySelectorAll('.app-screen').forEach(s => s.classList.remove('active'));
   document.getElementById('btnBack').style.display = 'none';
+}
+
+// JURI SELECT
+window.pilihJuri = (nomor) => {
+  juriAktif = nomor;
+  document.getElementById('nomorJuriAktif').textContent = nomor;
+  document.getElementById('juriSelectView').style.display = 'none';
+  document.getElementById('juriPanelView').style.display = 'block';
+}
+
+window.kembaliKeJuriSelect = () => {
+  document.getElementById('juriSelectView').style.display = 'block';
+  document.getElementById('juriPanelView').style.display = 'none';
 }
 
 // INIT DATA
@@ -360,12 +412,11 @@ async function initData() {
 }
 initData();
 
-// LISTENER REALTIME - UPDATE SEMUA LAYAR
+// LISTENER REALTIME
 onValue(dataRef, (snap) => {
   const d = snap.val();
   if(!d) return;
 
-  // Update skor semua layar
   document.getElementById('scoreBiruJuri').textContent = d.biru;
   document.getElementById('scoreMerahJuri').textContent = d.merah;
   document.getElementById('dewanScoreBiru').textContent = d.biru;
@@ -373,7 +424,6 @@ onValue(dataRef, (snap) => {
   document.getElementById('monitorScoreBiru').textContent = d.biru;
   document.getElementById('monitorScoreMerah').textContent = d.merah;
 
-  // Update nama
   document.getElementById('namaBiruJuri').textContent = d.namaBiru;
   document.getElementById('namaMerahJuri').textContent = d.namaMerah;
   document.getElementById('dewanNamaBiru').textContent = d.namaBiru;
@@ -385,7 +435,6 @@ onValue(dataRef, (snap) => {
   document.getElementById('monitorPerguruanBiru').textContent = d.perguruanBiru;
   document.getElementById('monitorPerguruanMerah').textContent = d.perguruanMerah;
 
-  // Update timer
   let m = Math.floor(d.timer/60);
   let s = d.timer%60;
   let timerStr = String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
@@ -393,9 +442,8 @@ onValue(dataRef, (snap) => {
   document.getElementById('monitorTimer').textContent = timerStr;
   document.getElementById('dewanBabakLabel').textContent = 'BABAK ' + d.babak + ' - AKTIF';
   document.getElementById('monitorBabak').textContent = 'BABAK ' + d.babak;
-
-  // Update judul
   document.getElementById('judulMatchHeader').textContent = d.judul;
+  document.getElementById('judulJuriHeader').textContent = d.judul;
 });
 
 // JURI FUNCTION
@@ -405,18 +453,17 @@ window.addScore = async (warna, nilai) => {
   update(dataRef, {[warna]: d[warna] + nilai});
 }
 
-// DEWAN FUNCTION - HUKUMAN
+// DEWAN FUNCTION
 window.hukuman = async (warna, nilai) => {
   if(nilai === 'DQ') {
     alert('DISKUALIFIKASI ' + warna.toUpperCase());
     update(dataRef, {timer: 0});
     return;
   }
-
   const snap = await get(dataRef);
   const d = snap.val();
   let skorBaru = d[warna] + nilai;
-  if(skorBaru < 0) skorBaru = 0; // Skor gak boleh minus
+  if(skorBaru < 0) skorBaru = 0;
   update(dataRef, {[warna]: skorBaru});
 }
 
@@ -463,11 +510,9 @@ window.saveData = async () => {
     });
   };
 
-  const [fotoBiru, fotoMerah, logoKiri, logoKanan] = await Promise.all([
+  const [fotoBiru, fotoMerah] = await Promise.all([
     uploadFile(document.getElementById('fotoBiru')),
-    uploadFile(document.getElementById('fotoMerah')),
-    uploadFile(document.getElementById('logoKiri')),
-    uploadFile(document.getElementById('logoKanan'))
+    uploadFile(document.getElementById('fotoMerah'))
   ]);
 
   if(fotoBiru) updateData.fotoBiru = fotoBiru;
